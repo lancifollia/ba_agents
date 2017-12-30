@@ -29,6 +29,7 @@ agent.on("perception", perception => {
 const shoot = perception => {
 
     let shooting = null;
+    let velocity = null;
 
     // for everything that stands in our field of view
     for (const perceived of perception.vision) {
@@ -38,8 +39,11 @@ const shoot = perception => {
 
         if(!shooting || otherAgentPosition.mag() < shooting.mag()) {
             shooting = otherAgentPosition;
+            velocity = Vector2.fromArray(perceived.velocity)
         }
     }
+
+    if(shooting) shooting.add(velocity);
 
     return shooting;
 };
